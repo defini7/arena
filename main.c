@@ -12,10 +12,10 @@ typedef struct Test
 int main()
 {
     Arena a;
-    arena_init(&a, 64);
+    arena_init(&a, 1000);
     
-    Test* t = arena_grab(&a, sizeof(Test));
-    float* p = arena_grab(&a, sizeof(float));
+    Test* t = arena_get(&a, sizeof(Test));
+    float* p = arena_get(&a, sizeof(float));
     
     *p = 25.0f;
     t->a = 10312;
@@ -23,9 +23,10 @@ int main()
 
     printf("%f %d %f\n", *p, t->a, t->b);
 
-    arena_grab(&a, 100);
+    // Must fail
+    arena_get(&a, 100);
     
-    arena_deinit(&a);
+    arena_free(&a);
     
     return 0;
 }
